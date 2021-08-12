@@ -144,5 +144,5 @@ try:
 # handle CTRL-C
 except KeyboardInterrupt:
     # if we're using Windows, turn off promiscuous mode
-    if os.name == 'nt':A
+    if os.name == 'nt':
         sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
