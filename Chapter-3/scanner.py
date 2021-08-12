@@ -21,6 +21,7 @@ subnet = '[target subnet in slash notation]'
 magic_message = 'PYTHONRULES!'
 
 # this sprays out the UDP datagrams
+# udp_sender() simply takes in a subnet that we have specified, iterates through all of the IP addresses in the subnet in question, and fires udp datagrams at them
 def udp_sender(subnet, magic_message):
     sender = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -97,6 +98,7 @@ if os.name == 'nt':
     sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)
 
 # start sending packets
+# we spawn udp_sender() in a separate thread to ensure that we aren't interfering with our ability to sniff responses
 t = threading.Thread(target = udp_sender, args = (subnet, magic_message))
 t.start()
 
@@ -142,5 +144,5 @@ try:
 # handle CTRL-C
 except KeyboardInterrupt:
     # if we're using Windows, turn off promiscuous mode
-    if os.name == 'nt':
+    if os.name == 'nt':A
         sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
